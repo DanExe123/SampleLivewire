@@ -22,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_admin',
     ];
 
     /**
@@ -46,6 +47,15 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    
+    // Move scopeSearch() outside of casts()
+    public function scopeSearch($query, $value) {
+        return $query->where('name', 'like', "%{$value}%")
+                     ->orWhere('email', 'like', "%{$value}%");
+    }
+    
+
+
 
     /**
      * Get the user's initials

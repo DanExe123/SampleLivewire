@@ -4,14 +4,11 @@ namespace App\Livewire;
 
 use Livewire\Component;
 
-class Button extends Component
+class UserPage extends Component
 {
-
-
-
-    
+ 
     public function render()
     {
-        return view('livewire.button');
+        return view('livewire.user-page');
     }
 }

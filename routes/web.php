@@ -2,10 +2,29 @@
 
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
+//use App\Livewire\LandingPage; 
+//use App\Livewire\UserPage; 
+
+
+
+
+
+//Route::get('/', LandingPage::class);
+
+//Route::get('/userpage', UserPage::class);
+
+
+
+
+
 
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
+
+
+
+
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
@@ -20,3 +39,6 @@ Route::middleware(['auth'])->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+
+
