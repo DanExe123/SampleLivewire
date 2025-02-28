@@ -7,17 +7,21 @@ use App\Livewire\ContactUs;
 
 
 
+<<<<<<< HEAD
 Route::get('/contact-us', ContactUs::class)->name('contact-us');
 
 
+=======
+
+//Route::get('/', LandingPage::class);
+
+//Route::get('/userpage', UserPage::class);
+>>>>>>> ac0b52d5c9c2a3990e724e2f3a71e632e1ae840f
 
 
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
-
-
-
 
 
 Route::view('dashboard', 'dashboard')
