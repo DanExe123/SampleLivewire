@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use App\Models\Contact;
 
 
 
@@ -35,12 +36,13 @@ class ContactUs extends Component
 
         // Success message
         session()->flash('success', 'Your message has been sent successfully!');
+        
     }
     
     public function render()
     {
-        return view('livewire.contact-us')->layout('layouts.app');
+        return view('livewire.contact-us', [
+            'messages' => Contact::all(), 
+        ])->layout('layouts.app');
     }
 }
-
-

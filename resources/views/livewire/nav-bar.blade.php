@@ -1,4 +1,8 @@
 <div>
+    <div class="flex justify-center bg-white">
+        <h1 class="font-bold text-4xl"> Sample  Livewire</h1>
+    </div>
+    
     <nav class="bg-white shadow-md p-4">
         <div class="container mx-auto flex justify-between items-center">
             <a href="{{ url('/') }}" class="text-xl font-bold text-gray-800">MyApp</a>
@@ -6,8 +10,8 @@
             <div class="hidden md:flex space-x-6">
                 <a href="{{ url('/') }}" class="text-gray-700 hover:text-blue-500">Home</a>
                 <a href="{{ url('') }}" class="text-gray-700 hover:text-blue-500">About</a>
-                <a href="{{ route('create-item') }}" class="text-gray-700 hover:text-blue-500">create Item</a>
-                <a href="{{ route('contact-us') }}" class="text-gray-700 hover:text-blue-500">Contact</a>
+                <a wire:navigate href="{{ route('create-item') }}" class="text-gray-700 hover:text-blue-500">create Item</a>
+                <a wire:navigate href="{{ route('contact-us') }}" class="text-gray-700 hover:text-blue-500">Contact</a>
 
     
             <!-- Mobile Menu Button -->

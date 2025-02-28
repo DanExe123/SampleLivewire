@@ -1,3 +1,4 @@
+
 <div class="max-w-lg mx-auto bg-white shadow-md rounded-lg p-6">
     @if (session()->has('message'))
         <div class="bg-green-500 text-white text-sm p-2 rounded mb-4">

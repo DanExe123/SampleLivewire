@@ -97,7 +97,8 @@
                                 <td class="px-4 py-3">{{ $user->created_at }}</td>
                                 <td class="px-4 py-3">{{ $user->updated_at }}</td>
                                 <td class="px-4 py-3 flex items-center justify-end">
-                                    <button onclick="confirm('are you sure you want to delete this user {{ $user->name }} ?') ? '' : event.stopImmediatePropagation()"  wire:click="delete({{ $user->id }})" class="px-3 py-1 bg-red-500 text-white rounded">X</button>
+                                    <button
+                                     onclick="confirm('are you sure you want to delete this user {{ $user->name }} ?') ? '' : event.stopImmediatePropagation()"  wire:click="delete({{ $user->id }})" class="px-3 py-1 bg-red-500 text-white rounded">X</button>
                                 </td>
                             </tr>
 
