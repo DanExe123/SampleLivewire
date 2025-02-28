@@ -33,6 +33,6 @@ class CreateItem extends Component
 
     public function render()
     {
-        return view('livewire.create-item');
+        return view('livewire.create-item')->layout('layouts.app');
     }
 }

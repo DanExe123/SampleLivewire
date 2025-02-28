@@ -21,9 +21,9 @@
         @livewire('nav-bar')
        @livewire('data-tables')
 
-<<<<<<< HEAD
-=======
-       <livewire:CreateItem />
->>>>>>> ac0b52d5c9c2a3990e724e2f3a71e632e1ae840f
+
+
+    
+
     </body>
 </html>

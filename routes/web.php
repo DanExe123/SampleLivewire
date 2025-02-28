@@ -3,20 +3,16 @@
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 use App\Livewire\ContactUs;
+use App\Livewire\CreateItem;
 
 
 
 
-<<<<<<< HEAD
+
 Route::get('/contact-us', ContactUs::class)->name('contact-us');
+Route::get('/create-item', CreateItem::class)->name('create-item');
 
 
-=======
-
-//Route::get('/', LandingPage::class);
-
-//Route::get('/userpage', UserPage::class);
->>>>>>> ac0b52d5c9c2a3990e724e2f3a71e632e1ae840f
 
 
 Route::get('/', function () {

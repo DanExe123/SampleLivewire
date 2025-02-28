@@ -6,7 +6,7 @@
             <div class="hidden md:flex space-x-6">
                 <a href="{{ url('/') }}" class="text-gray-700 hover:text-blue-500">Home</a>
                 <a href="{{ url('') }}" class="text-gray-700 hover:text-blue-500">About</a>
-                <a href="{{ url('') }}" class="text-gray-700 hover:text-blue-500">Services</a>
+                <a href="{{ route('create-item') }}" class="text-gray-700 hover:text-blue-500">create Item</a>
                 <a href="{{ route('contact-us') }}" class="text-gray-700 hover:text-blue-500">Contact</a>
 
     
