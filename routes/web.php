@@ -2,18 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
-//use App\Livewire\LandingPage; 
-//use App\Livewire\UserPage; 
+use App\Livewire\ContactUs;
 
 
 
 
-
-//Route::get('/', LandingPage::class);
-
-//Route::get('/userpage', UserPage::class);
-
-
+Route::get('/contact-us', ContactUs::class)->name('contact-us');
 
 
 

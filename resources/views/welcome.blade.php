@@ -17,7 +17,9 @@
         <div class="flex justify-center mt-5">
             <h1 class="font-bold text-4xl"> Sample Data tables in Livewire</h1>
         </div>
-     
+        
+        @livewire('nav-bar')
        @livewire('data-tables')
+
     </body>
 </html>
