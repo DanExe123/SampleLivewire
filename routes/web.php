@@ -14,16 +14,9 @@ use Livewire\Volt\Volt;
 //Route::get('/userpage', UserPage::class);
 
 
-
-
-
-
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
-
-
-
 
 
 Route::view('dashboard', 'dashboard')

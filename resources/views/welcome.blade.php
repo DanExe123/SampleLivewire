@@ -19,5 +19,7 @@
         </div>
      
        @livewire('data-tables')
+
+       <livewire:CreateItem />
     </body>
 </html>
