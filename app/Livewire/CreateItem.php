@@ -4,7 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 
-use App\Models\Item; // <-- Add this line
+use App\Models\Item; 
 
 class CreateItem extends Component
 {

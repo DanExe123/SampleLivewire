@@ -7,11 +7,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
+use Spatie\Permission\Traits\HasRoles;
+
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -22,9 +24,27 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'is_admin',
+        'role',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($user) {
+            if ($user->hasRole('customer')) {
+                $user->role = 'customer';
+
+                
+            } elseif ($user->hasRole('admin')) {
+                $user->role = 'admin';
+            }
+        });
+    }
+
+
+
+    
     /**
      * The attributes that should be hidden for serialization.
      *

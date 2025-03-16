@@ -36,7 +36,9 @@ class DataTables extends Component
 
 
 
-    public function delete(User $user){
+    public function delete(User $user)
+    {   
+      //  $this->authorize('delete', $user);
         $user->delete();
     }
     
