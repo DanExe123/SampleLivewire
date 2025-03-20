@@ -16,17 +16,28 @@
             <!-- Cart Container -->
             <div class="container mx-auto w-full max-w-none p-6 bg-white rounded-lg shadow-md flex flex-col">
                 <!-- Header -->
-                <h2 class="text-2xl font-bold mb-3 text-gray-800">My Orders</h2>
                 <div class="py-2 flex">
-                    <a wire:navigate href="{{ route('WelcomeChromehearts') }}" class="flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 text-gray-500">
-                            <path fill-rule="evenodd" d="M7.72 12.53a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 1 1 1.06 1.06L9.31 12l6.97 6.97a.75.75 0 1 1-1.06 1.06l-7.5-7.5Z" clip-rule="evenodd" />
-                        </svg>     
-                        <p class="font-bold text-gray-500">Products</p> 
-                    </a>
+                <a wire:navigate href="{{ route('WelcomeChromehearts') }}" class="flex items-center gap-4 text-red-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+                      </svg>                          
+                <h2 class="text-2xl font-bold mb-3 text-gray-800 mt-3">My Purchases</h2>
+                </a> 
                 </div>
+                <!-- search bar with transition alpine -->
+                <div class="flex justify-end">
+                @include('livewire.includes.searchbar-transition')
+                <!--My purchases chat support -->
+                @include('livewire.includes.mypurchases-chat-support')
+                </div>
+                <!-- header navbar Top Shipped , To Recieve , Complete , Cancelled -->
+                <!--Breadcrumbs with icons-->
+                <div class="flex justify-center">
+                    @include('livewire.includes.Breadcrumbs')
+                </div>
+
                 
 
     </div> 
 </div> 
-        
+    </div>       

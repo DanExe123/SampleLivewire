@@ -17,6 +17,7 @@ use App\Livewire\CustomerAccount;
 use App\Livewire\OrdersManagement;
 use App\Livewire\Shipped;
 use App\Livewire\MyOrders;
+use App\Livewire\ToShipped;
 
 
  /* Customer side */
@@ -32,6 +33,11 @@ use App\Livewire\MyOrders;
             Route::get('/create-item', CreateItem::class)->name('create-item');
             Route::get('/CloneFieldGrade', CloneFieldGrade::class)->name('clone-field-grade');
             Route::get('/my-orders', MyOrders::class)->name('my-orders');
+
+
+            // My purchase Pages
+            Route::get('/to-shipped', ToShipped::class)->name('to-shipped');
+
     });
 
 

@@ -6,6 +6,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\Cart;
 use App\Models\Product;
+use App\Models\CustomerPurchase;
 use Illuminate\Support\Facades\Auth;
 use Livewire\WithPagination;    
 use Livewire\Attributes\Url;
@@ -143,44 +144,60 @@ class Cartpage extends Component
     
         // submit order 
         public function submitOrder()
-    {
-        $cartItems = Cart::where('user_id', Auth::id())->where('status', 'pending')->get();
-
-        if ($cartItems->isEmpty()) {
-            $this->dispatch('swal', [
-                'icon' => 'error',
-                'title' => 'Cart Empty!',
-                'text' => 'Your cart is empty. Please add items before placing an order.',
-            ]);
-            return;
+        {
+            $cartItems = Cart::where('user_id', Auth::id())->where('status', 'pending')->get();
+        
+            if ($cartItems->isEmpty()) {
+                $this->dispatch('swal', [
+                    'icon' => 'error',
+                    'title' => 'Cart Empty!',
+                    'text' => 'Your cart is empty. Please add items before placing an order.',
+                ]);
+                return;
+            }
+        
+            if (empty($this->latitude) || empty($this->longitude)) {
+                $this->dispatch('swal', [
+                    'icon' => 'error',
+                    'title' => 'Location Required!',
+                    'text' => 'Please select your location before placing an order.',
+                ]);
+                return;
+            }
+        
+            foreach ($cartItems as $cart) {
+                // Ensure the product exists to avoid errors
+                $productPrice = $cart->product->price ?? 0;
+                $totalPrice = $cart->quantity * $productPrice;
+        
+                // Update cart status
+                $cart->update([
+                    'status' => 'ordered',
+                    'latitude' => $this->latitude,
+                    'longitude' => $this->longitude,
+                ]);
+        
+                // Insert into customer_purchases table
+                CustomerPurchase::create([
+                    'user_id'     => $cart->user_id,
+                    'carts_id'    => $cart->id,
+                    'product_id'  => $cart->product_id,
+                    'quantity'    => $cart->quantity,
+                    'total_price' => $totalPrice,
+                    'status'      => 'ordered',
+                    'latitude'    => $this->latitude,
+                    'longitude'   => $this->longitude,
+                ]);
+            }
+        
+            Log::info("Order placed with location: Latitude - {$this->latitude}, Longitude - {$this->longitude}");
+        
+            // Show success notification
+            $this->dispatch('swal');
+        
+            $this->dispatch('cartUpdated'); // Refresh cart
         }
-
-        if (empty($this->latitude) || empty($this->longitude)) {
-            $this->dispatch('swal', [
-                'icon' => 'error',
-                'title' => 'Location Required!',
-                'text' => 'Please select your location before placing an order.',
-            ]);
-            return;
-        }
-
-        foreach ($cartItems as $cart) {
-            $cart->update([
-                'status' => 'ordered',
-                'latitude' => $this->latitude,
-                'longitude' => $this->longitude,
-            ]);
-        }
-
-        Log::info("Order placed with location: Latitude - {$this->latitude}, Longitude - {$this->longitude}");
-
-        // Show success notification
-        $this->dispatch('swal');
-
-        $this->dispatch('cartUpdated'); // Refresh cart
-    }
-
-
+        
 
 
     

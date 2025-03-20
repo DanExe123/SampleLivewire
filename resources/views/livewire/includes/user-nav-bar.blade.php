@@ -7,7 +7,7 @@
            
          
             <div class="">
-            <img src="{{ asset('logo/logo-chrome-hearts-removebg-preview.png') }}" alt="Logo" class=" w-64 ml-40 ">
+            <img src="{{ asset('logo/logo-chrome-hearts-removebg-preview.png') }}" alt="Logo" class=" w-64  ">
             </div>
             <div class="hidden md:flex space-x-6">
                 @guest
@@ -32,7 +32,7 @@
                 <div class="mt-2">
                     <span class="text-white font-mono hover:text-red-600 font-bold cursor-pointer">
                         <a href="{{ route('my-orders') }}">
-                        MyOrders
+                        MyPurchase
                     </a></span>
                 </div>
 
@@ -40,7 +40,7 @@
             <!-- Desktop User Menu -->
             <flux:dropdown position="bottom" align="start">
                 <flux:profile
-                    :name="auth()->user()->name"
+                    {{-- :name="auth()->user()->name"--}}
                     :initials="auth()->user()->initials()"
                     icon-trailing="chevrons-up-down"
                 />

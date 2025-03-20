@@ -27,8 +27,8 @@
 
 
                 <script async defer
-                src="https://maps.gomaps.pro/maps/api/js?key=AlzaSyY_zJLBXnoi4nHjjBmek7l1hjflOrdKYfg&libraries=geometry,places&callback=initMap">
-                </script>
+                    src="https://maps.gomaps.pro/maps/api/js?key=AlzaSyYMFug6t6ZXTwrH4nH6CxIwjisa2NLHILs&libraries=geometry,places&callback=initMap">
+                   </script>
                 <!-- <script async defer
                 src="./gogleplaces2.js">
                 </script> -->
