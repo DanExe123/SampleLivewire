@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->decimal('price', 10, 2);
             $table->integer('stock')->default(0);
             $table->text('description')->nullable();
+            $table->enum('status', ['pending', 'ordered', 'shipped', 'delivered'])->default('pending');
             $table->string('image')->nullable(); // Stores image path
             $table->timestamps();
         });

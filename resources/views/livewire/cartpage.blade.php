@@ -16,7 +16,7 @@
             <!-- Cart Container -->
             <div class="container mx-auto w-full max-w-none p-6 bg-white rounded-lg shadow-md flex flex-col">
                 <!-- Header -->
-                <h2 class="text-2xl font-bold mb-3 text-gray-800">🛒 Shopping Cart</h2>
+                <h2 class="text-2xl font-bold mb-3 text-gray-800">Shopping Cart</h2>
                 <div class="py-2 flex">
                     <a wire:navigate href="{{ route('WelcomeChromehearts') }}" class="flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 text-gray-500">
@@ -31,12 +31,12 @@
                     <p class="text-gray-500 text-center flex-grow flex items-center justify-center">Your cart is empty.</p>
                 @else
                 <!-- Cart Items Container -->
-<div class="flex-grow space-y-4">
-    @foreach ($cartItems as $cart)
-        <div class="grid grid-cols-3 gap-4 p-4 border-b bg-gray-50 rounded-md mb-4 relative">
-            <!-- Left Column (Image, Details) -->
-            <div class="flex items-center gap-4">
-                @php
+            <div class="flex-grow space-y-4">
+                @foreach ($cartItems as $cart)
+                    <div class="grid grid-cols-3 gap-4 p-4 border-b bg-gray-50 rounded-md mb-4 relative">
+                        <!-- Left Column (Image, Details) -->
+                        <div class="flex items-center gap-4">
+                            @php
                     $images = is_array($cart->product->image) ? $cart->product->image : json_decode($cart->product->image, true);
                 @endphp
 
@@ -62,22 +62,7 @@
             <!-- Center Column (Size Selection) -->
             <div class="flex flex-col items-center justify-center">
                 <p class="text-sm font-semibold">Size:</p>
-                <div class="flex gap-2 mt-1">
-                    @php
-                        $sizes = is_array($cart->product->size) ? $cart->product->size : json_decode($cart->product->size, true);
-                    @endphp
-                    @if(is_array($sizes))
-                        @foreach($sizes as $size)
-                            <button wire:click="selectSize({{ $cart->id }}, '{{ $size }}')" 
-                                class="px-3 py-1 text-sm font-semibold rounded border
-                                    {{ $cart->selectedSize === $size ? 'bg-black text-white' : 'bg-gray-200 text-gray-500 opacity-50 cursor-not-allowed' }}">
-                                {{ $size }}
-                            </button>
-                        @endforeach
-                    @else
-                        <span class="text-gray-500">No sizes available</span>
-                    @endif
-                </div>
+                <livewire:cart-size-selector :cart="$cart" />
             </div>
 
         
@@ -132,9 +117,6 @@
         </div>
     @endforeach
 </div>
-
-    
-
                     <div class="py-4 px-3">
                         <div class="flex">
                             <div class="flex space-x-4 items-center mb-3">
@@ -158,9 +140,45 @@
                     <!-- Total & Checkout -->
                     <div class="p-4 border-t bg-white flex justify-between items-center">
                         <h3 class="text-lg font-semibold text-gray-700">Total: ₱{{ number_format($cartItems->sum(fn($cart) => $cart->product->price * $cart->quantity), 2) }}</h3>
-                        <button class="bg-blue-500 text-white px-6 py-2 text-lg rounded hover:bg-blue-600 transition">
-                            Proceed to Checkout
-                        </button>
+                        <!-- <button class="bg-blue-500 text-white px-6 py-2 text-lg rounded hover:bg-blue-600 transition">-->
+                            <div x-data="{ showModal: false, map: null, marker: null, address: '' }">
+                                <!-- Submit Order Button -->
+                                <button @click="showModal = true" class="bg-blue-500 text-white p-2 rounded">
+                                    Submit Order
+                                </button>
+                            
+                                <!-- Modal -->
+                                <div x-show="showModal"
+                                    x-transition:enter="transition ease-out duration-300 transform"
+                                    x-transition:enter-start="opacity-0 scale-90"
+                                    x-transition:enter-end="opacity-100 scale-100"
+                                    x-transition:leave="transition ease-in duration-200 transform"
+                                    x-transition:leave-start="opacity-100 scale-100"
+                                    x-transition:leave-end="opacity-0 scale-90"
+                                 class="fixed inset-0 flex items-center justify-center  bg-opacity-50 z-10">
+                                    <div class="bg-white p-6 rounded-lg shadow-lg w-[800px] max-h-[80vh] overflow-y-auto"> <!-- Added scrolling -->
+   
+                                        <h2 class="text-xl font-semibold text-center">Confirm Your Order</h2>
+                            
+                                        <!-- Payment Method -->
+                                        <div class="mt-4">
+                                            <label class="block font-medium">Payment Method:</label>
+                                            <select wire:model="paymentMethod" class="w-full border p-3 rounded">
+                                                <option value="cod">Cash on Delivery (COD)</option>
+                                            </select>
+                                        </div>
+                            
+                                        <!-- Delivery Process -->
+                                        <div class="mt-4">
+                                            <label class="block font-medium">Delivery Process:</label>
+                                            <select wire:model="deliveryMethod" class="w-full border p-3 rounded">
+                                                <option value="standard">Standard Delivery</option>
+                                                <option value="express">Express Delivery</option>
+                                            </select>
+                                        </div>
+                                        <!-- google maps -->
+                                        @include('livewire.includes.gomaps-api')
+                                           
                     </div>
                 @endif
         
@@ -168,3 +186,18 @@
     </div> 
 </div> 
         
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        Livewire.on('swal', (data) => {
+            Swal.fire({
+                icon: data.icon,
+                title: data.title,
+                text: data.text,
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'OK'
+            });
+        });
+    });
+</script>

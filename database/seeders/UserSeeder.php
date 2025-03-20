@@ -6,7 +6,6 @@ use Illuminate\Database\Seeder;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
-use Spatie\Permission\Traits\HasRoles;
 
 class UserSeeder extends Seeder
 {
@@ -25,24 +24,30 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Admin User',
                 'password' => Hash::make('password'), // Change password as needed
-                'role' => 'admin',
-                
             ]
         );
         $admin->assignRole('admin');
 
-        // Create Customer User
+        // Create a default Customer User
         $customer = User::firstOrCreate(
             ['email' => 'customer@example.com'], // Change email as needed
             [
                 'name' => 'Customer User',
                 'password' => Hash::make('password'), // Change password as needed
-                'role' => 'customer',
-             
             ]
         );
         $customer->assignRole('customer');
 
-        echo " Admin and Customer users seeded successfully!\n";
+        // Create multiple dummy customer accounts
+        for ($i = 1; $i <= 5; $i++) {
+            $dummyCustomer = User::create([
+                'name' => 'Customer ' . $i,
+                'email' => 'customer' . $i . '@example.com',
+                'password' => Hash::make('password'), // Default password
+            ]);
+            $dummyCustomer->assignRole('customer');
+        }
+
+        echo "Admin and Customer users seeded successfully!\n";
     }
 }

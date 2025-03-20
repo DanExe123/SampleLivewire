@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Spatie\Permission\Traits\HasRoles;
+use Spatie\Permission\Models\Role;
+
 
 
 class User extends Authenticatable
@@ -23,6 +25,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'is_active',
         'password',
         'role',
     ];
@@ -41,6 +44,25 @@ class User extends Authenticatable
             }
         });
     }
+
+            // Accessor for status
+            public function getStatusAttribute()
+            {
+                return $this->is_active ? 'Active' : 'Inactive';
+            }
+
+            // Mark user as inactive when they log out
+            public function markAsInactive()
+            {
+                $this->update(['is_active' => false]);
+            }
+
+            // Mark user as active when they log in
+            public function markAsActive()
+            {
+                $this->update(['is_active' => true]);
+            }
+
 
 
 
@@ -86,5 +108,12 @@ class User extends Authenticatable
             ->explode(' ')
             ->map(fn (string $name) => Str::of($name)->substr(0, 1))
             ->implode('');
+    }
+
+
+    // role 
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
     }
 }

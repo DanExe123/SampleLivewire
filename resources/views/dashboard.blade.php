@@ -1,6 +1,6 @@
 <x-layouts.app>
    
-   @role('admin')
+   @hasrole('admin')
    <div x-data="dashboard()" class="max-w-6xl mx-auto">
       <h1 class="text-2xl font-semibold text-gray-800">Sales & Order Analytics</h1>
 
@@ -143,5 +143,5 @@
        };
    }
 </script>
-  @endrole
+@endhasrole
 </x-layouts.app>

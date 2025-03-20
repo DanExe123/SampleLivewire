@@ -9,6 +9,7 @@ use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use Livewire\WithPagination;    
 use Livewire\Attributes\Url;
+use Illuminate\Support\Facades\Log;
 
 class Cartpage extends Component
 {
@@ -17,13 +18,31 @@ class Cartpage extends Component
 
     #[Url(history: true)]
     public $perPage = 5;
-
-    protected $listeners = ['addToCart', 'cartUpdated' => '$refresh']; // Ensure it refreshes on update
-
+    public $selectedSizes = [];
+    protected $listeners = [
+        'updateLocation' => 'updateLocation',
+        'addToCart',
+        'cartUpdated' => '$refresh'
+    ]; 
     public $cartCount = 0;
+    public $latitude;
+    public $longitude;
+    public $paymentMethod;
+    public $deliveryMethod;
 
 
 
+
+    public function updateLocation($lat, $lng)
+{
+    $this->latitude = $lat;
+    $this->longitude = $lng;
+
+    Log::info("Location updated: Latitude - $lat, Longitude - $lng");
+}
+
+
+    
 
    public function mount()
    {
@@ -31,8 +50,25 @@ class Cartpage extends Component
        if (!Auth::check() || !Auth::user()->hasRole('customer')) {
            abort(404); // Return a 404 Not Found response
        }
+
+       $this->cartItems = Cart::with('product')->get();
+
+        // Initialize selected sizes
+        foreach ($this->cartItems as $cart) {
+            $this->selectedSizes[$cart->id] = $cart->selectedSize ?? null;
    }
-   
+    }
+
+   public function selectSize($cartId, $size)
+   {
+       $this->selectedSizes[$cartId] = $size;
+
+       // Optional: Save to database
+       $cart = Cart::find($cartId);
+       if ($cart) {
+           $cart->update(['selectedSize' => $size]);
+       }
+   }
 
     
 
@@ -102,7 +138,49 @@ class Cartpage extends Component
             $cart->delete(); 
         }
     }
+
     
+    
+        // submit order 
+        public function submitOrder()
+    {
+        $cartItems = Cart::where('user_id', Auth::id())->where('status', 'pending')->get();
+
+        if ($cartItems->isEmpty()) {
+            $this->dispatch('swal', [
+                'icon' => 'error',
+                'title' => 'Cart Empty!',
+                'text' => 'Your cart is empty. Please add items before placing an order.',
+            ]);
+            return;
+        }
+
+        if (empty($this->latitude) || empty($this->longitude)) {
+            $this->dispatch('swal', [
+                'icon' => 'error',
+                'title' => 'Location Required!',
+                'text' => 'Please select your location before placing an order.',
+            ]);
+            return;
+        }
+
+        foreach ($cartItems as $cart) {
+            $cart->update([
+                'status' => 'ordered',
+                'latitude' => $this->latitude,
+                'longitude' => $this->longitude,
+            ]);
+        }
+
+        Log::info("Order placed with location: Latitude - {$this->latitude}, Longitude - {$this->longitude}");
+
+        // Show success notification
+        $this->dispatch('swal');
+
+        $this->dispatch('cartUpdated'); // Refresh cart
+    }
+
+
 
 
     
@@ -114,4 +192,7 @@ class Cartpage extends Component
                 ->paginate($this->perPage),
         ]);
     }
+
+
+
     }

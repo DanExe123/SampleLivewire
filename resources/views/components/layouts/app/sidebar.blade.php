@@ -6,7 +6,7 @@
         @include('partials.head')
     </head>
     <body class="min-h-screen bg-white dark:bg-zinc-800">
-        @role('admin')
+        @hasrole('admin')
         <flux:sidebar sticky stashable class="border-r border-zinc-200 bg-black dark:border-zinc-700 dark:bg-zinc-900">
             <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
 
@@ -28,13 +28,11 @@
                     </flux:navlist.item>
                 </flux:navlist.group>
                 
-            
-              <flux:navlist.group heading="" class="grid py-2">
-                <flux:navlist.item icon="User" :href="route('customer-account')" :current="request()->routeIs('customer-account')" wire:navigate>
-                    Costumer 
-                </flux:navlist.item>
-            </flux:navlist.group>
-
+                <flux:navlist.group heading="" class="grid py-2">
+                    <flux:navlist.item icon="User" :href="route('customer-account')" :current="request()->routeIs('customer-account')" wire:navigate>
+                        Costumer 
+                    </flux:navlist.item>
+                    </flux:navlist.group>
 
                 <!-- Orders Section -->
                 <flux:navlist.group heading="" class="grid py-2">
@@ -156,10 +154,12 @@
                 </flux:menu>
             </flux:dropdown>
         </flux:header>
-        @endrole
+        @endhasrole
         {{ $slot }}
 
       
         @fluxScripts
     </body>
 </html>
+
+

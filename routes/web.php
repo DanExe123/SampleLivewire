@@ -16,26 +16,41 @@ use App\Livewire\ProductManagement;
 use App\Livewire\CustomerAccount;
 use App\Livewire\OrdersManagement;
 use App\Livewire\Shipped;
+use App\Livewire\MyOrders;
+
+
+ /* Customer side */
+ Route::middleware(['auth', 'verified'
+ ])->prefix('customer')->group(function () {
+            Route::get('/edit-product/{id}', EditProduct::class)->name('edit-product');
+           
+            Route::get('/cartpage', Cartpage::class)->name('cartpage');
+            Route::get('/welcome-chromehearts', WelcomeChromehearts::class)->name('WelcomeChromehearts');
+            Route::get('/login', Login::class)->name('login');
+            Route::get('/add-product', AddProduct::class)->name('add-product');
+            Route::get('/contact-us', ContactUs::class)->name('contact-us');
+            Route::get('/create-item', CreateItem::class)->name('create-item');
+            Route::get('/CloneFieldGrade', CloneFieldGrade::class)->name('clone-field-grade');
+            Route::get('/my-orders', MyOrders::class)->name('my-orders');
+    });
 
 
 
 
 
-Route::get('/edit-product/{id}', EditProduct::class)->name('edit-product');
+        /* Admin Side */
+Route::middleware(['auth', 'verified'])->group(function(){
+   // Route::prefix('admin')->group(function () {
+            Route::get('/product-management', ProductManagement::class)->name('product-management');
+            Route::get('/customer-account', CustomerAccount::class)->name('customer-account');
+            Route::get('/orders-management', OrdersManagement::class)->name('orders-management');
+            Route::get('/shipped', Shipped::class)->name('shipped');
+   // });
+});
 
-Route::get('/cartpage', Cartpage::class)->name('cartpage');
-Route::get('/welcome-chromehearts', WelcomeChromehearts::class)->name('WelcomeChromehearts');
-Route::get('/login', Login::class)->name('login');
-Route::get('/add-product', AddProduct::class)->name('add-product');
-Route::get('/contact-us', ContactUs::class)->name('contact-us');
-Route::get('/create-item', CreateItem::class)->name('create-item');
-Route::get('/CloneFieldGrade', CloneFieldGrade::class)->name('clone-field-grade');
 
-/*  Admin Side */
-Route::get('/product-management', ProductManagement::class)->name('product-management');
-Route::get('/customer-account', CustomerAccount::class)->name('customer-account');
-Route::get('/orders-management', OrdersManagement::class)->name('orders-management');
-Route::get('/shipped', Shipped::class)->name('shipped');
+
+
 
 
 Route::get('/', function () {

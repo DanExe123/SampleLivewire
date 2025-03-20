@@ -9,16 +9,15 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up()
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->string('status')->default('pending'); // Default status is 'pending'
+        Schema::table('carts', function (Blueprint $table) {
+            $table->string('selected_size')->nullable()->after('product_id');
         });
     }
 
     public function down()
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->dropColumn('status');
+        Schema::table('carts', function (Blueprint $table) {
+            $table->dropColumn('selected_size');
         });
     }
 };
-
