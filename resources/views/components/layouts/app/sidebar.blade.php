@@ -34,12 +34,7 @@
                     </flux:navlist.item>
                     </flux:navlist.group>
 
-                <!-- Orders Section -->
-                <flux:navlist.group heading="" class="grid py-2">
-                    <flux:navlist.item icon="shopping-cart" :href="route('orders-management')" :current="request()->routeIs('orders-management')" wire:navigate>
-                        Orders
-                    </flux:navlist.item>
-                </flux:navlist.group>
+                
 
                 <!-- Shipping Charges Section -->
                 <flux:navlist.group heading="" class="grid py-2">
@@ -47,6 +42,15 @@
                         Shipped
                     </flux:navlist.item>
                             </flux:navlist.group>
+
+                <!--  -->
+                <flux:navlist.group heading="" class="grid py-2">
+                    <flux:navlist.item icon="shopping-cart" :href="route('orders')" :current="request()->routeIs('orders')" wire:navigate>
+                        Orders
+                    </flux:navlist.item>
+                            </flux:navlist.group>
+
+
             
             </flux:navlist>
             

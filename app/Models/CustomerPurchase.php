@@ -22,5 +22,6 @@ class CustomerPurchase extends Model
      {
          return $this->belongsTo(Cart::class, 'carts_id');
      }
+     
 
 }

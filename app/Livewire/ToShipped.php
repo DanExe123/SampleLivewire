@@ -19,7 +19,7 @@ class ToShipped extends Component
     {
         //$this->loadPurchases();
     }
-
+/*
     public function getAddress($latitude, $longitude)
     {
         if (empty($latitude) || empty($longitude)) {
@@ -40,7 +40,7 @@ class ToShipped extends Component
         Log::warning('Google API response did not return an address:', ['response' => $data]);
         return 'Unknown location';
     }
-
+*/
 
     
 
@@ -50,11 +50,6 @@ class ToShipped extends Component
         $customerPurchases = CustomerPurchase::whereHas('cart', function ($query) {
             $query->where('user_id', Auth::id());
         })->with('cart.product')->orderBy('created_at', 'desc')->get();
-
-        // Attach the resolved addresses to each purchase
-        foreach ($customerPurchases as $purchase) {
-            $purchase->resolved_address = $this->getAddress($purchase->latitude, $purchase->longitude);
-        }
 
         return view('livewire.to-shipped', [
             'customerPurchases' => $customerPurchases,

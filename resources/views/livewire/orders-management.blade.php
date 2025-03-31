@@ -1,4 +1,4 @@
 <div>
-    {{-- Do your work, then step back. --}}
-
+    
+    @livewire('add-product')   
 </div>

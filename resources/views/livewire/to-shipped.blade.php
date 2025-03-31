@@ -29,72 +29,70 @@
         @include('livewire.includes.Breadcrumbs')
     </div>
 
-
-<div class="container mx-auto w-full max-w-none p-6 bg-white rounded-lg  flex flex-col">
-    <!-- Header -->
-    <div>
+    <div class="container mx-auto w-full max-w-none p-6 bg-white rounded-lg flex flex-col">
         <h2 class="text-2xl font-bold mb-3 text-gray-800">To Be Shipped</h2>
-        
+    
         @if($customerPurchases->isEmpty())
-        <p class="text-gray-500 text-center">No purchases to be shipped.</p>
-    @else
-
-    @foreach($customerPurchases as $purchase)
-    <div class="grid grid-cols-3 gap-4 p-4 border-b bg-gray-50 rounded-md shadow-md relative">
-        <div class="flex items-center gap-4">
-            @php
-                // Decode product images safely
-                $images = is_array($purchase->cart->product->image) ? $purchase->cart->product->image : json_decode($purchase->cart->product->image, true);
-            @endphp
-
-            @if(is_array($images) && count($images) > 0)
-                @foreach($images as $image)
-                    <img src="{{ asset('storage/' . $image) }}" 
-                        alt="{{ $purchase->cart->product->name ?? 'Product Image' }}" 
-                        class="w-16 h-16 rounded-lg cursor-pointer hover:scale-110 transition">
-                @endforeach
-            @else
-                <img src="{{ asset('storage/' . ($purchase->cart->product->image ?? 'default-image.jpg')) }}" 
-                    alt="{{ $purchase->cart->product->name ?? 'Product Image' }}" 
-                    class="w-16 h-16 rounded-lg cursor-pointer hover:scale-110 transition">
-            @endif
-            
-            <div>
-                        <h3 class="text-lg font-semibold">{{ $purchase->cart->product->name ?? 'Product Name' }}</h3>
-                        <p class="text-sm text-gray-600 w-48 truncate">{{ $purchase->cart->product->description ?? 'No description' }}</p>
-                        <p class="text-blue-600 text-sm font-medium mt-1">Tracking No: {{ $purchase->id }}</p>
-                    </div>
-                </div>
-
-
-
-
-                <div class="flex flex-col items-center justify-center">
-                    <p class="text-sm font-semibold text-gray-700">Status:</p>
-                    <span class="px-3 py-1 text-sm font-medium text-white bg-yellow-500 rounded-full">
-                        {{ ucfirst($purchase->cart->status) }}
-                    </span>
-                    <p class="text-xs text-gray-500 mt-1">Expected: Sept 30, 2025</p>
-                    <div>
+            <p class="text-gray-500 text-center">No purchases to be shipped.</p>
+        @else
+            <div class="flex flex-col gap-4"> <!-- Changed grid to flex-col for vertical stacking -->
+                @foreach($customerPurchases as $purchase)
+                    <div class="grid grid-cols-3 gap-4 p-4 border bg-gray-50 rounded-md shadow-md">
+                        <!-- Product Image -->
+                        <div class="flex items-center gap-4">
+                            @php
+                                $images = is_array($purchase->cart->product->image) 
+                                    ? $purchase->cart->product->image 
+                                    : json_decode($purchase->cart->product->image, true);
+                            @endphp
+    
+                            <img src="{{ asset('storage/' . ($images[0] ?? 'default-image.jpg')) }}" 
+                                alt="{{ $purchase->cart->product->name ?? 'Product Image' }}" 
+                                class="w-16 h-16 rounded-lg cursor-pointer hover:scale-110 transition">
+    
+                            <div>
+                                <h3 class="text-lg font-semibold">{{ $purchase->cart->product->name ?? 'Product Name' }}</h3>
+                                <p class="text-sm text-gray-600 w-48 truncate">{{ $purchase->cart->product->description ?? 'No description' }}</p>
+                                <p class="text-blue-600 text-sm font-medium mt-1">Tracking No: {{ $purchase->id }}</p>
+                            </div>
+                        </div>
+    
+                       <!-- Order Status -->
+                       <div class="flex flex-col items-center justify-center">
+                        <p class="text-sm font-semibold text-gray-700">Status:</p>
+                        <span class="px-3 py-1 text-sm font-medium text-white bg-yellow-500 rounded-full">
+                            {{ ucfirst($purchase->cart->status) }}
+                        </span>
+                        <p class="text-xs text-gray-500 mt-1">Expected: Sept 30, 2025</p>
+                        
+                        <!-- Display latitude and longitude -->
                         <p class="text-xs text-gray-500">
-                            Address: {{ $purchase->resolved_address ?? 'Invalid coordinates' }}
+                            Location: 
+                            @if (!empty($purchase->cart->address))
+                                {{ $purchase->cart->address }}
+                            @elseif (!empty($purchase->cart->latitude) && !empty($purchase->cart->longitude))
+                                Lat: {{ $purchase->cart->latitude }}, Lng: {{ $purchase->cart->longitude }}
+                            @else
+                                <span class="text-red-500">Coordinates not available</span>
+                            @endif
                         </p>
+                        
                     </div>
-                </div>
-                
-                <div class="flex items-center justify-end space-x-4">
-                    @include('livewire.includes.mypurchases-modal-view-cancelled')
-                </div>
-            </div>
-        @endforeach
-    @endif
-    
-        </div>
-    </div>
-    
-  </div>
-  </div>
+                    
 
+                        <!-- Action Buttons -->
+                        <div class="flex items-center justify-end space-x-4">
+                            @include('livewire.includes.mypurchases-modal-view-cancelled')
+                        </div>
+
+                        </div>
+                        </div>
+                    </div>
+             
+                @endforeach
+            </div>
+        </div>
+        @endif
 <!--Parent Div -->
  </div>
 

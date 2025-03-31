@@ -14,10 +14,11 @@ use App\Livewire\WelcomeChromehearts;
 use App\Livewire\Cartpage;
 use App\Livewire\ProductManagement;
 use App\Livewire\CustomerAccount;
-use App\Livewire\OrdersManagement;
+//use App\Livewire\OrdersManagement;
 use App\Livewire\Shipped;
 use App\Livewire\MyOrders;
 use App\Livewire\ToShipped;
+use App\Livewire\Orders;
 
 
  /* Customer side */
@@ -49,8 +50,9 @@ Route::middleware(['auth', 'verified'])->group(function(){
    // Route::prefix('admin')->group(function () {
             Route::get('/product-management', ProductManagement::class)->name('product-management');
             Route::get('/customer-account', CustomerAccount::class)->name('customer-account');
-            Route::get('/orders-management', OrdersManagement::class)->name('orders-management');
+           // Route::get('/orders-management', OrdersManagement::class)->name('orders-management');
             Route::get('/shipped', Shipped::class)->name('shipped');
+            Route::get('/orders', Orders::class)->name('orders');
    // });
 });
 
