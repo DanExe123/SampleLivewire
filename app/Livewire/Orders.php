@@ -5,10 +5,13 @@ namespace App\Livewire;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
-use App\Models\Product;
 use App\Models\CustomerPurchase;
-use Livewire\Attributes\Url;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Cart;
+use App\Models\User;
+use App\Models\Product;
+use Livewire\Attributes\Url;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Orders extends Component
@@ -31,34 +34,53 @@ class Orders extends Component
     {
         $this->updateStatusCounts();
     }
-    
+
     public function updateStatus($purchaseId, $status)
     {
+        // Get the customer purchase record
         $purchase = CustomerPurchase::find($purchaseId);
-
+    
         if ($purchase) {
-            $purchase->status = $status;
-            $purchase->save();
+            // Update the status in the related cart table
+            $purchase->cart->status = $status; // Assuming 'cart' is the relationship name
+            $purchase->cart->save(); // Save the cart with the updated status
+            
             session()->flash('message', 'Order status updated successfully!');
         }
     }
-    
+
+    // Method to count ordered and delivered products
     public function updateStatusCounts()
     {
-        $this->orderedCount = Product::where('status', 'Ordered')->count();
-        $this->deliveredCount = Product::where('status', 'Delivered')->count();
+        // Count the number of ordered products
+        $this->orderedCount = CustomerPurchase::whereHas('cart', function ($query) {
+            $query->where('status', 'Ordered');
+        })->count();
+    
+        // Count the number of delivered products
+        $this->deliveredCount = CustomerPurchase::whereHas('cart', function ($query) {
+            $query->where('status', 'Delivered');
+        })->count();
     }
+    
     
 
     public function render()
-{
-    $customerPurchases = CustomerPurchase::whereHas('cart', function ($query) {
-        $query->where('user_id', Auth::id());
-    })->with('cart.product')->orderBy('created_at', 'desc')->get();
-
-    return view('livewire.orders', [
-        'customerPurchases' => $customerPurchases,
-    ]);
-}
+    {
+        // Get customer purchases, excluding the admin (user_id != 1)
+        $customerPurchases = CustomerPurchase::whereHas('cart', function ($query) {
+            $query->where('user_id', '!=', 1); // Exclude admin
+        })->with('cart.product.category') // Load category too
+          ->orderBy('created_at', 'desc')
+          ->get();
+    
+        // Log for debugging
+        Log::info('Customer Purchases: ', [$customerPurchases]);
+    
+        return view('livewire.orders', [
+            'customerPurchases' => $customerPurchases,
+        ]);
+    }
+    
 
 }

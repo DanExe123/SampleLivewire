@@ -19,28 +19,7 @@ class ToShipped extends Component
     {
         //$this->loadPurchases();
     }
-/*
-    public function getAddress($latitude, $longitude)
-    {
-        if (empty($latitude) || empty($longitude)) {
-            Log::warning('Invalid coordinates received:', ['lat' => $latitude, 'lng' => $longitude]);
-            return 'Invalid coordinates';
-        }
-    
-        $apiKey = env('AlzaSyYMFug6t6ZXTwrH4nH6CxIwjisa2NLHILs');
-        $url = "https://maps.googleapis.com/maps/api/geocode/json?latlng={$latitude},{$longitude}&key={$apiKey}";
-    
-        $response = Http::get($url);
-        $data = $response->json();
-    
-        if (isset($data['results'][0]['formatted_address'])) {
-            return $data['results'][0]['formatted_address'];
-        }
-    
-        Log::warning('Google API response did not return an address:', ['response' => $data]);
-        return 'Unknown location';
-    }
-*/
+
 
     
 

@@ -63,10 +63,13 @@
                         <span class="px-3 py-1 text-sm font-medium text-white bg-yellow-500 rounded-full">
                             {{ ucfirst($purchase->cart->status) }}
                         </span>
-                        <p class="text-xs text-gray-500 mt-1">Expected: Sept 30, 2025</p>
+                        <p class="text-xs text-gray-500 mt-1">
+                            Expected: {{ \Carbon\Carbon::parse($purchase->created_at)->addDays(7)->format('F d, Y') }}
+                        </p>
+                        
                         
                         <!-- Display latitude and longitude -->
-                        <p class="text-xs text-gray-500">
+                        <p class="text-xs text-gray-500 text-center">
                             Location: 
                             @if (!empty($purchase->cart->address))
                                 {{ $purchase->cart->address }}
@@ -76,7 +79,13 @@
                                 <span class="text-red-500">Coordinates not available</span>
                             @endif
                         </p>
-                        
+
+                        <!-- Display Total Price -->
+                        <p class="text-sm font-semibold text-center text-gray-700">
+                            Total Price: ₱{{ number_format($purchase->total_price, 2) }}
+                        </p>
+
+
                     </div>
                     
 

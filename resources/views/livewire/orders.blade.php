@@ -32,6 +32,7 @@
                                     <th scope="col" class="px-4 py-3 text-left">Category</th>
                                     <th scope="col" class="px-4 py-3 text-center">Status</th>
                                     <th scope="col" class="px-4 py-3 text-center">Images</th>   
+                       
                                 </tr>
                             </thead>
                             <tbody>
@@ -48,10 +49,10 @@
                                     <!-- Status -->
                                     <td class="px-4 py-3 relative text-center">
                                         <div x-data="{ open: false }">
-                                            <button @click="open = !open" 
-                                                class="px-3 py-1 text-xs font-medium text-white rounded focus:outline-none 
-                                                    {{ $purchase->status === 'Shipped' ? 'bg-blue-500' : 
-                                                    ($purchase->status === 'Delivered' ? 'bg-green-500' : 'bg-gray-500') }}">
+                                            <button @click="open = !open"
+                                            class="px-3 py-1 text-xs font-medium text-white rounded h-4 w-10 focus:outline-none 
+                                                {{ $purchase->status === 'Shipped' ? 'bg-blue-500' : 
+                                                ($purchase->status === 'Delivered' ? 'bg-green-500' : 'bg-gray-500') }}">
                                                 {{ $purchase->status }}
                                             </button>
                                     
@@ -65,10 +66,43 @@
                                                 class="absolute right-0 mt-2 w-40 bg-white border rounded shadow-lg z-50">
                                                 
                                                 <ul class="py-1 text-gray-700">
-                                                    <li><button wire:click="updateStatus({{ $purchase->id }}, 'Shipped')" @click="open = false" class="block w-full px-4 py-2 text-sm hover:bg-blue-100">Shipped</button></li>
-                                                    <li><button wire:click="updateStatus({{ $purchase->id }}, 'Delivered')" @click="open = false" class="block w-full px-4 py-2 text-sm hover:bg-green-100">Delivered</button></li>
-                                                    <li><button wire:click="updateStatus({{ $purchase->id }}, 'Completed')" @click="open = false" class="block w-full px-4 py-2 text-sm hover:bg-gray-100">Completed</button></li>
+                                                    <!-- Ordered Button -->
+                                                    <li>
+                                                        <button wire:click="updateStatus({{ $purchase->id }}, 'ordered')" @click="open = false" 
+                                                            class="block w-full px-4 py-2 text-sm hover:bg-yellow-100 
+                                                            {{ $purchase->status === 'ordered' ? 'bg-yellow-500 text-white' : '' }}">
+                                                            Ordered
+                                                        </button>
+                                                    </li>
+                                                dsadasd
+                                                    <!-- Shipped Button -->
+                                                    <li>
+                                                        <button wire:click="updateStatus({{ $purchase->id }}, 'shipped')" @click="open = false" 
+                                                            class="block w-full px-4 py-2 text-sm hover:bg-blue-100 
+                                                            {{ $purchase->status === 'shipped' ? 'bg-blue-500 text-white' : '' }}">
+                                                            Shipped
+                                                        </button>
+                                                    </li>
+                                                
+                                                    <!-- Delivered Button -->
+                                                    <li>
+                                                        <button wire:click="updateStatus({{ $purchase->id }}, 'delivered')" @click="open = false" 
+                                                            class="block w-full px-4 py-2 text-sm hover:bg-green-100 
+                                                            {{ $purchase->status === 'delivered' ? 'bg-green-500 text-white' : '' }}">
+                                                            Delivered
+                                                        </button>
+                                                    </li>
+                                                
+                                                    <!-- Completed Button -->
+                                                    <li>
+                                                        <button wire:click="updateStatus({{ $purchase->id }}, 'completed')" @click="open = false" 
+                                                            class="block w-full px-4 py-2 text-sm hover:bg-gray-100 
+                                                            {{ $purchase->status === 'completed' ? 'bg-gray-500 text-white' : '' }}">
+                                                            Completed
+                                                        </button>
+                                                    </li>
                                                 </ul>
+                                                
                                             </div>
                                         </div>
                                     </td>
