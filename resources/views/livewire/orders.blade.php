@@ -74,7 +74,7 @@
                                                             Ordered
                                                         </button>
                                                     </li>
-                                                testdasdasdasdasdasdas
+                                                testdasdasdasdasdasdasdsadasda
                                                     <!-- Shipped Button -->
                                                     <li>
                                                         <button wire:click="updateStatus({{ $purchase->id }}, 'shipped')" @click="open = false" 
